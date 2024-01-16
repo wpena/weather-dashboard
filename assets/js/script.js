@@ -1,9 +1,12 @@
+// Functions are called when the DOM has loaded
 $(function () {
 
+  // Function to fetch weather data from API
   function buildQuery(cityName) {
     const APIKey = '25a131e364e3b7a6a6ce9928baf5b301';
     const queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${APIKey}`;
 
+    // API call to get coordinates
     fetch(queryURL)
       .then(function (response) {
         return response.json();
@@ -12,31 +15,42 @@ $(function () {
           lat: data.coord.lat,
           lon: data.coord.lon
         };
+        // Save city to search history
         saveToSearchHistory(cityName);
+
+        // Get and display weather information
         currentWeather(coordinates);
         fiveDayForecast(coordinates);
 
       });
   }
 
+  // Checks if there's a search history in local storage
   const searchHistory = JSON.parse(localStorage.getItem('City:')) || [];
 
+  // Call function and populate search history
   displaySearchHistory();
 
+  // Listens for form submission
   $('#search-form').submit(function (event) {
     event.preventDefault();
 
+    // Get city name from input field
     const cityName = $('#search-input').val().trim();
+    // Check whether city name is empty
     if (cityName !== '') {
+      // If city name is not empty, call function to fetch weather data
       buildQuery(cityName);
     }
   });
 
+  // Listens for search history clicks
   $('#history').on('click', '.list-group-item', function () {
     const cityName = $(this).text();
     buildQuery(cityName);
   });
 
+  // Saves city to search history
   function saveToSearchHistory(cityName) {
     if (!searchHistory.includes(cityName)) {
       searchHistory.push(cityName);
@@ -45,6 +59,7 @@ $(function () {
     }
   }
 
+  // Renders and displays search history
   function displaySearchHistory() {
     $('#history').empty();
     searchHistory.forEach(function (city) {
@@ -54,6 +69,7 @@ $(function () {
     });
   }
 
+  // Gets and displays current weather
   function currentWeather(coordinates) {
     const APIKey = '25a131e364e3b7a6a6ce9928baf5b301';
     const queryURL = `https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.lat}&lon=${coordinates.lon}&units=metric&appid=${APIKey}`;
@@ -120,6 +136,7 @@ $(function () {
             const windEL = $('<p>').text(`Wind: ${windspeed} KPH`);
             const humidityEL = $('<p>').text(`Humidity: ${humidity} %`);
 
+            // Add the data to the card body
             cardBodyElement.append(dateEl, iconEl, tempEL, windEL, humidityEL);
             cardElement.append(cardBodyElement);
             forecastElement.append(cardElement);
@@ -150,6 +167,7 @@ $(function () {
 
       // Extract the closest forecast for each day from the object
       Object.values(closestForecastPerDay).forEach(function (closestForecast, index) {
+        // Start from the next day
         if (index !== 0) {
           forecastFiltered.push(closestForecast);
         }
