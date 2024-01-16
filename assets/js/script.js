@@ -64,7 +64,7 @@ $(function () {
     $('#history').empty();
     searchHistory.forEach(function (city) {
       const historyEl = $('<a>')
-        .addClass('list-group-item list-group-item-action').text(`${city}`);
+        .addClass('list-group-item list-group-item-action bg-secondary mb-2').text(`${city}`);
       $('#history').append(historyEl);
     });
   }
@@ -168,9 +168,10 @@ $(function () {
       // Extract the closest forecast for each day from the object
       Object.values(closestForecastPerDay).forEach(function (closestForecast, index) {
         // Start from the next day
-        if (index !== 0) {
-          forecastFiltered.push(closestForecast);
-        }
+        // if (index !== 0) {
+        //   forecastFiltered.push(closestForecast);
+        // }
+        forecastFiltered.push(closestForecast);
       });
 
       return forecastFiltered;

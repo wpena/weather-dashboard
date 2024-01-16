@@ -1,0 +1,32 @@
+
+.w-header, 
+.w-footer {
+  background-color: #251f67;
+}
+
+.card {
+    background-color: #2d3e50;
+    color: white;
+}
+
+.form-label {
+  font-size: 22px;
+}
+
+.forecast {
+  width: 170px;
+  background-color:#3b3e69;
+  color: white;
+}
+
+.list-group {
+  overflow-y: scroll;
+  max-height: 300px;
+}
+
+footer {
+  position: fixed;
+  height: 40px;
+  bottom: 0;
+  width: 100%;
+}
